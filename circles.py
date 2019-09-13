@@ -20,7 +20,7 @@ class Circle:
 def intersection(circles):
     '''Check circles intersection, return coors of intersection
 
-    circles: list of two Circle instances
+    circles: list of Circle instances
     return: data for ploting circles: circles coors and radius, height coor, coors of intersection
     '''
     data_intersect = []
