@@ -1,5 +1,6 @@
 from math import sqrt, fabs
 from collections import namedtuple
+import numpy as np
 
 # for VSCode
 # import matplotlib
@@ -21,7 +22,7 @@ def intersection(circles):
     '''Check circles intersection, return coors of intersection
 
     circles: list of Circle instances
-    return: data for ploting circles: circles coors and radius, height coor, coors of intersection
+    return: data for ploting circles intersection: height coor, coors of intersection
     '''
     data_intersect = []
 
@@ -60,14 +61,18 @@ def intersection(circles):
 
             else:
                 print('No intersection:', c1.name, c2.name)
-    print('data:', data_intersect)
-    print('data:', data_intersect[0].inter_dot_1_x)
+
     return data_intersect
 
 
 # plot figure
-def circles_plot(c_plot, data_intersect):
-
+def circles_plot(c_plot, data_intersect, center_intersection):
+    '''Plot circles and intersection dots
+    
+    c_plot: list of Circle instances
+    data_intersect: list, result of intersection function
+    center_intersection: list, intersection coordinates of two intersection lines
+    '''
     fig, ax = plt.subplots()
 
     # plot circles
@@ -85,15 +90,40 @@ def circles_plot(c_plot, data_intersect):
                  [points_coors.inter_dot_1_y, points_coors.inter_dot_2_y])
         plt.plot(points_coors.p0_x, points_coors.p0_y, 'go')
 
+    plt.plot(center_intersection[0], center_intersection[1], 'bo')
+
     plt.show()
+
+
+def center_of_intersection(data1, data2):
+    '''intersection dots line function
+    
+    data1: data from intersection function about first circle
+    data2: data from intersection function about second circle
+    result: list of intersection coordinates of two intersection lines
+    '''
+    # y = (x*(inter_dot_2_y - inter_dot_1_y) - inter_dot_2_y*inter_dot_1_x + inter_dot_1_y*inter_dot_1_x)/(inter_dot_2_x - inter_dot_1_x) + inter_dot_1_y
+    # y = k*x + b
+    k1 = (data1.inter_dot_2_y - data1.inter_dot_1_y) / (data1.inter_dot_2_x - data1.inter_dot_1_x)
+    k2 = (data2.inter_dot_2_y - data2.inter_dot_1_y) / (data2.inter_dot_2_x - data2.inter_dot_1_x)
+    b1 = data1.inter_dot_1_x*(data1.inter_dot_1_y - data1.inter_dot_2_y) / (data1.inter_dot_2_x - data1.inter_dot_1_x) + data1.inter_dot_1_y
+    b2 = data2.inter_dot_1_x*(data2.inter_dot_1_y - data2.inter_dot_2_y) / (data2.inter_dot_2_x - data2.inter_dot_1_x) + data2.inter_dot_1_y
+    M1 = np.array([[-k1, 1.], [-k2, 1.]])
+    v1 = np.array([b1, b2])
+
+    center_of_intersection = np.linalg.solve(M1, v1)
+    print('center_of_intersection:', center_of_intersection)
+    return center_of_intersection
 
 
 circle1 = Circle(0, 1, 5, 'circle1')
 circle2 = Circle(10, -4, 10, 'circle2')
 circle3 = Circle(-5, -5, 7, 'circle3')
-circle4 = Circle(3, 8, 6, 'circle4')
+# circle4 = Circle(3, 8, 6, 'circle4')
 
-circles = [circle1, circle2, circle3, circle4]
+circles = [circle1, circle2, circle3]
 
 data = intersection(circles)
-circles_plot(circles, data)
+
+center_intersection = center_of_intersection(data[0], data[1])
+circles_plot(circles, data, center_intersection)
