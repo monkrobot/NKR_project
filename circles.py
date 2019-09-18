@@ -94,11 +94,11 @@ def circles_plot(c_plot, data_intersect, center_intersection):
 
     # plot intersection points
     for points_coors in data_intersect:
-        plt.plot(points_coors.inter_dot_1_x, points_coors.inter_dot_1_y, 'ro')
+        plt.plot(points_coors.inter_dot_1_x, points_coors.inter_dot_1_y, 'go')
         if points_coors.inter_dot_2_x:
-            plt.plot(points_coors.inter_dot_2_x, points_coors.inter_dot_2_y, 'ro')
-            plt.plot([points_coors.inter_dot_1_x, points_coors.inter_dot_2_x],
-                     [points_coors.inter_dot_1_y, points_coors.inter_dot_2_y])
+            plt.plot(points_coors.inter_dot_2_x, points_coors.inter_dot_2_y, 'go')
+            # plt.plot([points_coors.inter_dot_1_x, points_coors.inter_dot_2_x],
+            #          [points_coors.inter_dot_1_y, points_coors.inter_dot_2_y])
             plt.plot(points_coors.p0_x, points_coors.p0_y, 'go')
 
     plt.plot(center_intersection[0], center_intersection[1], 'bo')
@@ -136,13 +136,13 @@ def center_of_intersection(data1, data2):
 circle1 = Circle(1.15, 1, 8.5, 'circle1')
 circle2 = Circle(1, -8.7, 6, 'circle2')
 circle3 = Circle(10, 1.1, 13, 'circle3')
-# circle4 = Circle(8.9, -9, 8, 'circle4')
-# circle5 = Circle(-10, 1.1, 15, 'circle5')
-# circle6 = Circle(8.9, -9, 8, 'circle6')
-# circle7 = Circle(0, 8, 9, 'circle7')
-# circle8 = Circle(5, 5, 5, 'circle8')
+circle4 = Circle(8.9, -8.4, 8, 'circle4')
+circle5 = Circle(-10, 1.1, 14.9, 'circle5')
+# circle6 = Circle(5.9, 5.9, 11, 'circle6')
+# circle7 = Circle(0, 8, 12, 'circle7')
+# circle8 = Circle(5, 4, 9, 'circle8')
 
-circles = [circle1, circle2, circle3] #, circle4, circle5, circle6, circle7, circle8]
+circles = [circle1, circle2, circle3, circle4, circle5] # , circle6, circle7, circle8]
 
 data = intersection(circles)
 if data:
